@@ -80,7 +80,7 @@ lad.voxels = function(normlas.file, grain.size = 1, k = 1){
   func = formula(paste0("~pointsByZSlice(Z, ", maxZ, ")"))
   t.binneds    = lidR::grid_metrics(.las, func, res = grain.size,
                                  start = c(min(.las@data$X), max(.las@data$Y)))
-  t.binneds    = data.frame(sp::coordinates(t.binneds), raster::values(t.binneds))
+  t.binneds    = data.frame(sp::coordinates(t.binneds), terra::values(t.binneds))
   names(t.binneds)[1:2] = c("X", "Y")
 
 
@@ -541,7 +541,7 @@ lai.raster = function(VOXELS_LAD, min = 1, relative.value = NULL){
 
   sp::coordinates(points)=~x+y
   sp::gridded(points) <- TRUE
-  raster = raster::raster(points, "z")
+  raster = terra::rasterize(points, "z")
   return(raster)
 
 } # end function
